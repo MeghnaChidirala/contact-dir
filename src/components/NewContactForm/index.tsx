@@ -15,7 +15,7 @@ const NewContactForm: React.FC<NewContactFormProps> = ({
   onCancel,
 }) => {
   const [formState, setFormState] = useState<Contact>({
-    id: contact?.id || 0, // Default to 0 if no ID
+    id: contact?.id || 0,
     initials: contact?.initials || "",
     name: contact?.name || "",
     role: contact?.role || "",
@@ -30,77 +30,140 @@ const NewContactForm: React.FC<NewContactFormProps> = ({
     setFormState((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     onSubmit(formState);
   };
 
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg p-8 shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-4">
-          {contact ? "Edit Contact" : "New Contact"}
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div className="bg-white rounded-lg p-8 shadow-xl w-full max-w-lg">
+        <h2 className="text-2xl font-bold text-center mb-2 text-gray-900">
+          Add New Contact
         </h2>
-        <form className="space-y-4">
-          <input
-            name="initials"
-            placeholder="Initials"
-            value={formState.initials}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-blue-500"
-          />
-          <input
-            name="name"
-            placeholder="Name"
-            value={formState.name}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-blue-500"
-          />
-          <input
-            name="role"
-            placeholder="Role"
-            value={formState.role}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-blue-500"
-          />
-          <input
-            name="company"
-            placeholder="Company"
-            value={formState.company}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-blue-500"
-          />
-          <input
-            name="phone"
-            placeholder="Phone"
-            value={formState.phone}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-blue-500"
-          />
-          <input
-            name="email"
-            placeholder="Email"
-            value={formState.email}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded focus:ring-2 focus:ring-blue-500"
-          />
+        <p className="text-gray-500 text-center mb-6">
+          Fill out the below form to add a new member
+        </p>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-4">
+            <div className="flex flex-col">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Name
+              </label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Angela Moss"
+                value={formState.name}
+                onChange={handleChange}
+                className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-purple-500"
+                required
+              />
+            </div>
+
+            <div className="flex space-x-4">
+              <div className="flex-1">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Email
+                </label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="Email address"
+                  value={formState.email}
+                  onChange={handleChange}
+                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-purple-500"
+                  required
+                />
+              </div>
+              <div className="flex-1">
+                <label
+                  htmlFor="phone"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Phone Number
+                </label>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  placeholder="(123) 456 - 7890"
+                  value={formState.phone}
+                  onChange={handleChange}
+                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-purple-500"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="flex space-x-4">
+              <div className="flex-1">
+                <label
+                  htmlFor="company"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Company
+                </label>
+                <input
+                  id="company"
+                  name="company"
+                  type="text"
+                  placeholder="Company name"
+                  value={formState.company}
+                  onChange={handleChange}
+                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-purple-500"
+                  required
+                />
+              </div>
+              <div className="flex-1">
+                <label
+                  htmlFor="role"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Designation
+                </label>
+                <input
+                  id="role"
+                  name="role"
+                  type="text"
+                  placeholder="Marketing Manager"
+                  value={formState.role}
+                  onChange={handleChange}
+                  className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-full focus:ring-2 focus:ring-purple-500"
+                  required
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-between items-center mt-6 space-x-4">
+            <button
+              type="button"
+              onClick={onCancel}
+              className="px-6 py-2 border border-purple-500 text-purple-500 rounded-full hover:bg-purple-100"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-6 py-2 bg-purple-600 text-white rounded-full hover:bg-purple-700"
+            >
+              Save
+            </button>
+          </div>
         </form>
-        <div className="flex justify-end space-x-4 mt-6">
-          <button
-            onClick={onCancel}
-            className="px-4 py-2 text-gray-700 border rounded hover:bg-gray-100"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={handleSubmit}
-            className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
-          >
-            Save
-          </button>
-        </div>
       </div>
     </div>
   );
 };
 
 export default NewContactForm;
+
